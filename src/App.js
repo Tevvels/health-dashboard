@@ -1,41 +1,28 @@
 import React, { useState, useEffect,useCallback} from 'react';
-
+import {fetchHealth, fetchReady, toggleFail} from './reliability';
 function App() {
   const [ health,setHealth] = useState(null);
   const [ ready,setReady] = useState(null);
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:3000';
-
-
-const fetchHealth = useCallback(async () => {
-  const res = await fetch(`${API_BASE_URL}/health`);
-  const data = await res.json();
-  setHealth(data);
-}, [API_BASE_URL]);
-
-const fetchReady = useCallback(async () => {
-  const res = await fetch(`${API_BASE_URL}/ready`);
-  const data = await res.json();
-  setReady(data);
-}, [API_BASE_URL]);
-
-  const toggleFail = async () => {
-    await fetch(`${API_BASE_URL}/fail`, { method: 'POST' });
-    fetchReady();
-
-  }
-
+  
   useEffect(() => {
-    fetchHealth();
-    fetchReady();
+    fetchHealth(API_BASE_URL).then(setHealth);
+    fetchReady(API_BASE_URL).then(setReady);
 
     const interval = setInterval(() => {
-      fetchHealth();
-      fetchReady();
+      fetchHealth(API_BASE_URL).then(setHealth);
+      fetchReady(API_BASE_URL).then(setReady);
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [fetchHealth, fetchReady]);
 
+      },[ ]);
+
+      const handleToggleFail = async () => {
+        await toggleFail(API_BASE_URL);
+        const readyData = await fetchReady(API_BASE_URL);
+        setReady(readyData);
+      };
   return (
     <div>
       <h1>Health Dashboard</h1>
@@ -62,7 +49,7 @@ const fetchReady = useCallback(async () => {
           <p>Loading...</p>
         )}
       </div>
-      <button onClick={toggleFail}>Toggle Fail</button>
+      <button onClick={handleToggleFail}>Toggle Fail</button>
     </div>
   );
 
