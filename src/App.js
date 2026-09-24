@@ -13,6 +13,7 @@ function App() {
     const res = await fetch(`${localhost}/ready`);
     const data = await res.json();
     setReady(data);
+    
   }
   const toggleFail = async () => {
     await fetch(`${localhost}/fail`, { method: 'POST' });
