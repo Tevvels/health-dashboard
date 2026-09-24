@@ -12,5 +12,5 @@ export const fetchHealth = async (API_BASE_URL, setHealth) => {
 export const fetchReady = async (API_BASE_URL, setReady) => {
   const res = await fetch(`${API_BASE_URL}/ready`);
     return res.json();
-
+  
 }   
