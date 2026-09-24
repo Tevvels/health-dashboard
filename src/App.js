@@ -7,7 +7,7 @@ function App() {
 
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:3000';
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  /* eslint-disable-next-line react-hooks/exhaustive-deps */
   useEffect(() => {
     fetchHealth(API_BASE_URL).then(setHealth);
     fetchReady(API_BASE_URL).then(setReady);
