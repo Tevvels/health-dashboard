@@ -1,20 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useCallback} from 'react';
 
 function App() {
   const [ health,setHealth] = useState(null);
   const [ ready,setReady] = useState(null);
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:3000';
-  const fetchHealth = async () => {
-    const res = await fetch(`${API_BASE_URL}/health`);
-    const data = await res.json();
-    setHealth(data);
-  };
-  const fetchReady = async () => {
-    const res = await fetch(`${API_BASE_URL}/ready`);
-    const data = await res.json();
-    setReady(data);
-    
-  }
+
+
+const fetchHealth = useCallback(async () => {
+  const res = await fetch(`${API_BASE_URL}/health`);
+  const data = await res.json();
+  setHealth(data);
+}, [API_BASE_URL]);
+
+const fetchReady = useCallback(async () => {
+  const res = await fetch(`${API_BASE_URL}/ready`);
+  const data = await res.json();
+  setReady(data);
+}, [API_BASE_URL]);
+
   const toggleFail = async () => {
     await fetch(`${API_BASE_URL}/fail`, { method: 'POST' });
     fetchReady();
@@ -31,7 +34,7 @@ function App() {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [fetchHealth, fetchReady]);
 
   return (
     <div>
