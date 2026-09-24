@@ -17,7 +17,7 @@ function App() {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [API_BASE_URL]);
 
   const handleToggleFail = async () => {
     await toggleFail(API_BASE_URL);
