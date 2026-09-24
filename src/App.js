@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import { fetchHealth, fetchReady, toggleFail } from './reliability';
 
@@ -8,21 +9,19 @@ function App() {
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:3000';
 
   useEffect(() => {
-    /* eslint-disable-next-line react-hooks/exhaustive-deps */
     const run = async () => {
-    fetchHealth(API_BASE_URL).then(setHealth);
-    fetchReady(API_BASE_URL).then(setReady);
-
-    const interval = setInterval(() => {
       fetchHealth(API_BASE_URL).then(setHealth);
       fetchReady(API_BASE_URL).then(setReady);
-    }, 5000);
 
-    return () => clearInterval(interval);
+      const interval = setInterval(() => {
+        fetchHealth(API_BASE_URL).then(setHealth);
+        fetchReady(API_BASE_URL).then(setReady);
+      }, 5000);
+
+      return () => clearInterval(interval);
     };
-    return run();
-    /* eslint-disable-next-line react-hooks/exhaustive-deps */
 
+    return run();
   }, []);
 
   const handleToggleFail = async () => {
