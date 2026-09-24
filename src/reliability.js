@@ -1,5 +1,7 @@
 export const toggleFail = async (API_BASE_URL) => {
-  await fetch(`${API_BASE_URL}/fail`, { method: 'POST' });
+ const res = await fetch(`${API_BASE_URL}/toggle-fail`, {
+    method: 'POST',
+  });
   return res.json();
 }
 export const fetchHealth = async (API_BASE_URL, setHealth) => {
