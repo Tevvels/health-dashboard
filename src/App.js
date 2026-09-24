@@ -3,20 +3,20 @@ import React, { useState, useEffect } from 'react';
 function App() {
   const [ health,setHealth] = useState(null);
   const [ ready,setReady] = useState(null);
-  const localhost = 'http://localhost:3000';
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:3000';
   const fetchHealth = async () => {
-    const res = await fetch(`${localhost}/health`);
+    const res = await fetch(`${API_BASE_URL}/health`);
     const data = await res.json();
     setHealth(data);
   };
   const fetchReady = async () => {
-    const res = await fetch(`${localhost}/ready`);
+    const res = await fetch(`${API_BASE_URL}/ready`);
     const data = await res.json();
     setReady(data);
     
   }
   const toggleFail = async () => {
-    await fetch(`${localhost}/fail`, { method: 'POST' });
+    await fetch(`${API_BASE_URL}/fail`, { method: 'POST' });
     fetchReady();
 
   }
