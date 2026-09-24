@@ -7,8 +7,9 @@ function App() {
 
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:3000';
 
-  /* eslint-disable-next-line react-hooks/exhaustive-deps */
   useEffect(() => {
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
+    const run = async () => {
     fetchHealth(API_BASE_URL).then(setHealth);
     fetchReady(API_BASE_URL).then(setReady);
 
@@ -18,6 +19,10 @@ function App() {
     }, 5000);
 
     return () => clearInterval(interval);
+    };
+    return run();
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
+
   }, []);
 
   const handleToggleFail = async () => {
